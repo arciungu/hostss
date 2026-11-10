@@ -1,4 +1,11 @@
 #!/bin/bash
+verifica() {
+  nslookup "$1" "$3" | grep "$2" > /dev/null
+  if [ "$?" -ne 0 ]; then
+    echo "Bogus IP for $1 in /etc/hosts!"
+  fi
+}
+
 cat /etc/hosts | while read ip name rest
 do
   if [ -z "$ip" ]; then
@@ -7,9 +14,6 @@ do
   case "$ip" in
     \#*) continue ;;
   esac
-  nslookup "$name" 8.8.8.8 | grep "$ip" > /dev/null
-  if [ "$?" -ne 0 ]; then
-    echo "Bogus IP for $name in /etc/hosts!"
-  fi
+  verifica "$name" "$ip" 8.8.8.8
 done
 exit 0
