@@ -17,3 +17,6 @@ do
   verifica "$name" "$ip" 8.8.8.8
 done
 exit 0
+
+#salut
+echo "razvan a fost aici"
